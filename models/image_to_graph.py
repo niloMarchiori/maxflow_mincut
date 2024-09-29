@@ -1,7 +1,6 @@
 from PIL import Image
 import numpy as np
 from math import e
-from graph import *
 
 def image_to_rgbmatrix(image_dir):
     imagem = Image.open(image_dir)
@@ -11,13 +10,13 @@ def image_to_rgbmatrix(image_dir):
 
     return matriz_pixels
     
-def cij(cor1,cor2,sigma=20,decimal=5):
+def cij(cor1,cor2,sigma=100,decimal=5):
     c=np.array(cor1,dtype=int)-np.array(cor2,dtype=int)
     dij= np.linalg.norm(c)
     x=int(e**(-dij/sigma)*10**decimal)
     return x
 
-def rgbmatrix_to_graphmatrix(rgbmatix):
+def rgbmatrix_to_graphmatrix(rgbmatrix):
     w=len(rgbmatrix)
     l=len(rgbmatrix)
 
@@ -58,8 +57,9 @@ def rgbmatrix_to_graphmatrix(rgbmatix):
 
 
 if __name__=='__main__':
+    from graph import *
     fig_name='ex_3x3.png'
-    image_dir ='Images/'+fig_name
+    image_dir ='Instances/Images/'+fig_name
 
     rgbmatrix=image_to_rgbmatrix(image_dir)
     n=len(rgbmatrix)
