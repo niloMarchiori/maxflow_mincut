@@ -1,7 +1,3 @@
-from PIL import Image
-import numpy as np
-from math import e
-
 def image_to_rgbmatrix(image_dir):
     imagem = Image.open(image_dir)
 
@@ -57,8 +53,11 @@ def rgbmatrix_to_graphmatrix(rgbmatix):
 
 
 if __name__=='__main__':
+    from PIL import Image
+    import numpy as np
+    from math import e
     from graph import *
-    fig_name='ex_9x9.png'
+    fig_name='ex_3x3.png'
     image_dir ='Images/'+fig_name
 
     rgbmatrix=image_to_rgbmatrix(image_dir)

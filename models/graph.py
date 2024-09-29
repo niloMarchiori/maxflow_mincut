@@ -75,7 +75,7 @@ class Graph():
 
         return result
 
-    def draw(self,residual_graph=False,colors=['lightblue'],exit_dir='Results/',fig_name='plot.png'):
+    def draw(self,residual_graph=False,colors=['lightblue'],output_dir='Results/',fig_name='plot.png'):
         G = nx.DiGraph()
         if residual_graph:
             graph=self.residual_graph
@@ -96,9 +96,10 @@ class Graph():
         nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
         # Plotando o grafo
 
-        plt.savefig(exit_dir+fig_name)
+        plt.savefig(output_dir+fig_name)
         plt.close()
-    def draw_gridgraph(self,n,m,residual_graph=False,colors=['lightblue'],exit_dir='Results/',fig_name='plot.png'):
+    
+    def draw_gridgraph(self,n,m,residual_graph=False,colors=['lightblue'],output_dir='Results/',fig_name='plot.png'):
         G = nx.DiGraph()
         if residual_graph:
             graph=self.residual_graph
@@ -125,7 +126,7 @@ class Graph():
         # labels = nx.get_edge_attributes(G, 'weight')
         # nx.draw_networkx_edge_labels(G, pos, edge_labels=labels,label_pos=0.3)
         # Plotando o grafo
-        plt.savefig(exit_dir+fig_name)
+        plt.savefig(output_dir+fig_name)
         plt.close()
     
 
@@ -137,7 +138,7 @@ if __name__=='__main__':
             [0, 0, 0, 7, 0, 4],
             [0, 0, 0, 0, 0, 0]]
     
-    g = Graph(5)
+    g = Graph(6)
     g.set_graph(graph)
 
     source = 0; sink = 5
