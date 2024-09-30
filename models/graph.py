@@ -15,6 +15,7 @@ class Graph():
     def send_flow(self,i,j,flow):
         self.flow[i][j]+=flow
     
+    # Atribui diretamente uma matriz de adjacências à um grafo
     def set_graph(self,matrix):
         self.residual_graph=np.array(matrix)
         self.graph=np.array(matrix)
@@ -42,10 +43,10 @@ class Graph():
                     if i==t:
                         return parent,visited
         return [],visited
-    
+
     def FF_by_edmond_karp(self,s,t):
-        max_flow=0
-        parent,visited=self.bfs(s,t)
+        max_flow=0        
+        parent,visited=self.bfs(0,t)
 
         while parent:
             increment_flow=float('inf')
@@ -64,7 +65,7 @@ class Graph():
                 self.increment_edge(v,u,increment_flow)
                 v=u
 
-            parent,visited=self.bfs(s,t)
+            parent,visited=self.bfs(s,t)            
 
         result={'val':max_flow,'mincut_edges':[],'s_conected':visited}
         for i in range(self.size):
@@ -74,61 +75,6 @@ class Graph():
                         result['mincut_edges'].append((i,j))
 
         return result
-
-    def draw(self,residual_graph=False,colors=['lightblue'],output_dir='Results/',fig_name='plot.png'):
-        G = nx.DiGraph()
-        if residual_graph:
-            graph=self.residual_graph
-        else:
-            graph=self.graph
-        for i in range(self.size):
-            for j in range(self.size):
-                if graph[i][j]>0:
-                    G.add_edge(i,j,weight=graph[i][j])
-        
-        pos = nx.spring_layout(G)
-
-        # Desenhar os nós e as arestas
-        nx.draw(G,pos, with_labels=True, node_color=colors, font_weight='bold', arrows=True)
-
-        # Desenhar os rótulos dos pesos das arestas
-        labels = nx.get_edge_attributes(G, 'weight')
-        nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
-        # Plotando o grafo
-
-        plt.savefig(output_dir+fig_name)
-        plt.close()
-    
-    def draw_gridgraph(self,n,m,residual_graph=False,colors=['lightblue'],output_dir='Results/',fig_name='plot.png'):
-        G = nx.DiGraph()
-        if residual_graph:
-            graph=self.residual_graph
-        else:
-            graph=self.graph
-        pos={}
-
-        node=0
-        for i in range(n-1,-1,-1):
-            for j in range(m):
-                G.add_node(node)
-                pos[node]=(j,i)
-                node+=1
-
-        for i in range(self.size):
-            for j in range(self.size):
-                if graph[i][j]>0:
-                    G.add_edge(i,j,weight=graph[i][j])
-        
-        # Desenhar os nós e as arestas
-        nx.draw(G,pos, with_labels=True, node_color=colors, font_weight='bold', arrows=True,connectionstyle='arc3,rad=0.2')
-
-        # Desenhar os rótulos dos pesos das arestas
-        # labels = nx.get_edge_attributes(G, 'weight')
-        # nx.draw_networkx_edge_labels(G, pos, edge_labels=labels,label_pos=0.3)
-        # Plotando o grafo
-        plt.savefig(output_dir+fig_name)
-        plt.close()
-    
 
 if __name__=='__main__':
     graph = [[0, 16, 13, 0, 0, 0],
@@ -143,13 +89,6 @@ if __name__=='__main__':
 
     source = 0; sink = 5
     result=g.FF_by_edmond_karp(source, sink)
-
-    colors=['lightblue']*g.size
-    for i in range(g.size):
-        if result['s_conected'][i]:
-            colors[i]='red'
-    g.draw(fig_name='graph.png',colors=colors)
-    g.draw(residual_graph=True,fig_name='residual_graph.png',colors=colors)
     for chave in result:
         print(chave,':',result[chave])
     

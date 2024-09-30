@@ -76,10 +76,3 @@ def get_instances_image_processing(pixel_source=[0],pixel_sink=[],image_dir ='In
 
         graph_to_image(result['s_conected'],rgbmatrix,fig_name,output_dir)
         # with open(output_dir+file_name[:-4]+'_output.json', 'w') as json_file:
-        #     json.dump(result, json_file, indent=4)
-
-
-if __name__=='__main__':
-    # get_instances_graphs()
-    get_instances_image_processing()
-    

@@ -10,7 +10,7 @@ def image_to_rgbmatrix(image_dir):
 
     return matriz_pixels
     
-def cij(cor1,cor2,sigma=100,decimal=5):
+def cij(cor1,cor2,sigma=1,decimal=10):
     c=np.array(cor1,dtype=int)-np.array(cor2,dtype=int)
     dij= np.linalg.norm(c)
     x=int(e**(-dij/sigma)*10**decimal)
@@ -18,7 +18,7 @@ def cij(cor1,cor2,sigma=100,decimal=5):
 
 def rgbmatrix_to_graphmatrix(rgbmatrix):
     w=len(rgbmatrix)
-    l=len(rgbmatrix)
+    l=len(rgbmatrix[0])
 
     visited=[[False]*l for _ in range(w)]
     graph=[[0]*l*w for _ in range(w*l)]
@@ -55,6 +55,20 @@ def rgbmatrix_to_graphmatrix(rgbmatrix):
             n+=1
     return graph
 
+def graph_to_image(visited,original_matrix,fig_name='imagem_rgb.png',output_dir='Results/Images'):
+    n=len(original_matrix)
+    m=len(original_matrix[0])
+   
+    matrix_rgb=np.array([[[0, 10, 230] for _ in range(m)] for _ in range(n)], dtype=np.uint8)
+    for i,vertex in enumerate(visited):
+        if vertex:
+            l=i//m
+            c=i%m
+            matrix_rgb[l][c]=[230,10,0]
+
+    imagem = Image.fromarray(matrix_rgb)
+    imagem.save(output_dir+fig_name)
+    
 
 if __name__=='__main__':
     from graph import *
@@ -69,15 +83,20 @@ if __name__=='__main__':
     g=Graph(len(graph))
     g.set_graph(graph)
     
-    source = 0; sink = n*m-1
+    source = [0]
+    
+    sink = [8]
     result= g.FF_by_edmond_karp(source, sink)
     colors=['lightblue']*g.size
     for i in range(g.size):
-        if result['s_conected'][i]:
+        if i in sink:
+            colors[i]='black'
+        elif i in source:
+            colors[i]='white'
+        elif result['s_conected'][i]:
             colors[i]='red'
 
     g.draw_gridgraph(n,m,fig_name='graph_'+fig_name,colors=colors)
     g.draw_gridgraph(n,m,residual_graph=True,fig_name='residual_graph_'+fig_name,colors=colors)
-    for chave in result:
-        print(chave,':',result[chave])
-    
+    graph_to_image(result['s_conected'],rgbmatrix,fig_name,output_dir='Results/')
+    print('OK')
