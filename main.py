@@ -3,7 +3,6 @@ from models.image_to_graph import *
 from math import e
 from PIL import Image
 import json
-
 import os
 
 def get_instances_graphs(instances_dir='Instances/Graphs/',output_dir='Results/Graphs/'):
