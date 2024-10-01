@@ -71,7 +71,7 @@ class ExGraph(Graph):
             for j in range(self.size):
                 f = self.flow[i][j]
                 c = graph[i][j]
-                if graph[i][j] > 0 or self.flow[i][j]:
+                if graph[i][j] > 0:
                     if residual_graph:
                         G.add_edge(i, j, label=c)
                     else:
@@ -80,7 +80,7 @@ class ExGraph(Graph):
         pos = {0: (0, 1), 1: (1, 1.5), 2: (1, 0.5), 3:(2, 1)}
 
         # Desenhar os nós e as arestas
-        nx.draw(G, pos, with_labels=True, node_color=colors, font_weight='bold', arrows=True, connectionstyle='arc3,rad=0.02',)
+        nx.draw(G, pos,node_size=2000, font_size=25, with_labels=True, node_color=colors, font_weight='bold', arrows=True, connectionstyle='arc3,rad=0.02',arrowsize=60,width=5)
 
         # Desenhar os rótulos dos pesos das arestas
         labels = nx.get_edge_attributes(G, 'label')
